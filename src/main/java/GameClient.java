@@ -14,4 +14,11 @@ public class GameClient extends JComponent {
             this.setPreferredSize(new Dimension(width,height));
         }
 
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+
+        g.drawImage(new ImageIcon("assets/images/itankD.png").getImage(),
+                100,100,null);
+    }
 }
