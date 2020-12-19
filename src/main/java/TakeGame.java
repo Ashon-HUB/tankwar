@@ -13,10 +13,12 @@ public class TakeGame {
         frame.pack();
 
 
+
         frame.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
                 super.keyPressed(e);
+                gameClient.keyPressed(e);
                 System.out.println((char)e.getKeyCode());
             }
 
@@ -25,6 +27,7 @@ public class TakeGame {
                 super.keyReleased(e);
             }
         });
+
 
     }
 }
