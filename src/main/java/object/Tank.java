@@ -9,11 +9,45 @@ public class Tank {
     private int y;
     private Direction direction;
     private int speed = 5;
+    private boolean[] dirs = new boolean[4];
+
+    public boolean[] getDirs() {
+        return dirs;
+    }
 
     public Tank(int x, int y, Direction direction) {
         this.x = x;
         this.y = y;
         this.direction = direction;
+    }
+
+    public void draw(Graphics g) {
+        if(!isStop()){
+            determineDirection();
+            move();
+        }
+        g.drawImage(getImage(), x, y, null);
+    }
+
+    public boolean isStop() {
+        for (int i = 0; i < dirs.length; i++) {
+            if (dirs[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void determineDirection() {
+        if (dirs[0] && !dirs[1] && !dirs[2] && !dirs[3]) direction = Direction.UP;
+        else if (!dirs[0] && dirs[1] && !dirs[2] && !dirs[3]) direction = Direction.DOWN;
+        else if (!dirs[0] && !dirs[1] && dirs[2] && !dirs[3]) direction = Direction.LEFT;
+        else if (!dirs[0] && !dirs[1] && !dirs[2] && dirs[3]) direction = Direction.RIGHT;
+
+        else if (dirs[0] && !dirs[1] && dirs[2] && !dirs[3]) direction = Direction.UP_LEFT;
+        else if (dirs[0] && !dirs[1] && !dirs[2] && dirs[3]) direction = Direction.UP_RIGHT;
+        else if (!dirs[0] && dirs[1] && dirs[2] && !dirs[3]) direction = Direction.DOWN_LEFT;
+        else if (!dirs[0] && dirs[1] && !dirs[2] && dirs[3]) direction = Direction.DOWN_RIGHT;
     }
 
     public void move() {
@@ -29,6 +63,22 @@ public class Tank {
                 break;
             case LEFT:
                 x -= speed;
+                break;
+            case UP_LEFT:
+                y -= speed;
+                x -= speed;
+                break;
+            case UP_RIGHT:
+                y -= speed;
+                x += speed;
+                break;
+            case DOWN_LEFT:
+                y += speed;
+                x -= speed;
+                break;
+            case DOWN_RIGHT:
+                y += speed;
+                x += speed;
                 break;
         }
     }

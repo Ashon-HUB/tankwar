@@ -38,32 +38,73 @@ public class GameClient extends JComponent {
     }
 
     public void keyPressed(KeyEvent e){
+            boolean[] dirs = Play.getDirs();
+
             switch (e.getKeyCode()){
                 case KeyEvent.VK_UP:
-                    Play.setDirection(Direction.UP);
-                    Play.setY(Play.getY()-5);
+                    dirs[0]=true;
+//                    Play.setDirection(Direction.UP);
+//                    Play.setY(Play.getY()-5);
                     break;
                 case KeyEvent.VK_DOWN:
-                    Play.setDirection(Direction.DOWN);
-                    Play.setY(Play.getY()+5);
-                    break;
-                case KeyEvent.VK_RIGHT:
-                    Play.setDirection(Direction.RIGHT);
-                    Play.setX(Play.getX()+5);
+                    dirs[1]=true;
+//                    Play.setDirection(Direction.DOWN);
+//                    Play.setY(Play.getY()+5);
                     break;
                 case KeyEvent.VK_LEFT:
-                    Play.setDirection(Direction.LEFT);
-                    Play.setX(Play.getX()-5);
+                    dirs[2]=true;
+//                    Play.setDirection(Direction.RIGHT);
+//                    Play.setX(Play.getX()+5);
                     break;
-                default:
+                case KeyEvent.VK_RIGHT:
+                    dirs[3]=true;
+//                    Play.setDirection(Direction.LEFT);
+//                    Play.setX(Play.getX()-5);
+                    break;
+
             }
             //repaint();
+        Play.move();
+    }
+    public void keyReleased(KeyEvent e){
+        boolean[] dirs = Play.getDirs();
+
+        switch (e.getKeyCode()){
+            case KeyEvent.VK_UP:
+                dirs[0]=false;
+//                    Play.setDirection(Direction.UP);
+//                    Play.setY(Play.getY()-5);
+                break;
+            case KeyEvent.VK_DOWN:
+                dirs[1]=false;
+//                    Play.setDirection(Direction.DOWN);
+//                    Play.setY(Play.getY()+5);
+                break;
+            case KeyEvent.VK_LEFT:
+                dirs[2]=false;
+//                    Play.setDirection(Direction.RIGHT);
+//                    Play.setX(Play.getX()+5);
+                break;
+            case KeyEvent.VK_RIGHT:
+                dirs[3]=false;
+//                    Play.setDirection(Direction.LEFT);
+//                    Play.setX(Play.getX()-5);
+                break;
+
+        }
+        Play.move();
+        //repaint();
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        g.drawImage(Play.getImage(),Play.getX(),Play.getY(),null);
+        g.setColor(Color.BLACK);
+        g.fillRect(0,0,width,height);
+
+        Play.draw(g);
+
+//        g.drawImage(Play.getImage(),Play.getX(),Play.getY(),null);
     }
 }
