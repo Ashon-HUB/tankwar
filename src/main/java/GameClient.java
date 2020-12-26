@@ -1,6 +1,4 @@
-import object.Direction;
-import object.Tank;
-import object.Wall;
+import object.Tools;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +11,6 @@ public class GameClient extends JComponent {
     Tank Play;
     private ArrayList<Tank> enemyTanks = new ArrayList<>();
     private ArrayList<Wall> walls = new ArrayList<>();
-
 
 
     GameClient() {
@@ -39,15 +36,27 @@ public class GameClient extends JComponent {
     }
 
     public void init() {
-        Play = new Tank(375, 100, Direction.DOWN);
+        Image[] itankImg = new Image[8];
+        Image[] etankImg = new Image[8];
+        String[] sub = {"U", "D", "L", "R", "LU", "RU", "LD", "RD"};
+        for (int i = 0; i < itankImg.length; i++) {
+            itankImg[i] = Tools.getImage("itank" + sub[i] + ".png");
+            etankImg[i] = Tools.getImage("etank" + sub[i] + ".png");
+        }
+
+
+        Play = new Tank(375, 100, Direction.DOWN, itankImg);
+
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 4; j++) {
-                enemyTanks.add(new Tank(250 + j * 80, 300 + 80 * i, Direction.UP,true));
+                enemyTanks.add(new Tank(250 + j * 80, 300 + 80 * i, Direction.UP, true,etankImg));
             }
         }
-        walls.add(new Wall(100,200,false,10));
-        walls.add(new Wall(200,200,true,13));
-        walls.add(new Wall(650,200,false,10));
+
+        Image[] image = {Tools.getImage("brick.png")};
+        walls.add(new Wall(100, 200, false, 10, image));
+        walls.add(new Wall(200, 200, true, 13, image));
+        walls.add(new Wall(650, 200, false, 10, image));
     }
 
 
@@ -122,7 +131,7 @@ public class GameClient extends JComponent {
         for (Tank tank : enemyTanks) {
             tank.draw(g);
         }
-        for(Wall wall : walls){
+        for (Wall wall : walls) {
             wall.draw(g);
         }
 
