@@ -1,3 +1,4 @@
+import object.GameObject;
 import object.Tools;
 
 import javax.swing.*;
@@ -9,8 +10,9 @@ public class GameClient extends JComponent {
     private int width;
     private int height;
     Tank Play;
-    private ArrayList<Tank> enemyTanks = new ArrayList<>();
-    private ArrayList<Wall> walls = new ArrayList<>();
+//    private ArrayList<Tank> enemyTanks = new ArrayList<>();
+//    private ArrayList<Wall> walls = new ArrayList<>();
+    private ArrayList<GameObject> gameObjects = new ArrayList<>();
 
 
     GameClient() {
@@ -46,17 +48,19 @@ public class GameClient extends JComponent {
 
 
         Play = new Tank(375, 100, Direction.DOWN, itankImg);
+        gameObjects.add(Play);
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 4; j++) {
-                enemyTanks.add(new Tank(250 + j * 80, 300 + 80 * i, Direction.UP, true,etankImg));
+                gameObjects.add(new Tank(250 + j * 80, 300 + 80 * i, Direction.UP, true,etankImg));
+              //  enemyTanks.add(new Tank(250 + j * 80, 300 + 80 * i, Direction.UP, true,etankImg));
             }
         }
 
         Image[] image = {Tools.getImage("brick.png")};
-        walls.add(new Wall(100, 200, false, 10, image));
-        walls.add(new Wall(200, 200, true, 13, image));
-        walls.add(new Wall(650, 200, false, 10, image));
+        gameObjects.add(new Wall(100, 200, false, 10, image));
+        gameObjects.add(new Wall(200, 200, true, 13, image));
+        gameObjects.add(new Wall(650, 200, false, 10, image));
     }
 
 
@@ -126,15 +130,21 @@ public class GameClient extends JComponent {
 
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, width, height);
-
+        for (GameObject o:gameObjects) {
+            o.draw(g);
+        }
+/*
         Play.draw(g);
-        for (Tank tank : enemyTanks) {
+        for (Tank tank : gameObjects) {
             tank.draw(g);
         }
         for (Wall wall : walls) {
             wall.draw(g);
         }
-
+*/
 //        g.drawImage(Play.getImage(),Play.getX(),Play.getY(),null);
+    }
+    public ArrayList<GameObject> getGameObjects(){
+        return gameObjects;
     }
 }

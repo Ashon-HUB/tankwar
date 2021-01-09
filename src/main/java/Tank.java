@@ -7,16 +7,16 @@ public class Tank extends GameObject {
 
 
     private Direction direction;
-    private int speed = 5;
+    private int speed = 20;
     private boolean[] dirs = new boolean[4];
     private boolean enemy;
 
-    public Tank(int x, int y, Direction direction,Image[] images) {
-        this(x, y, direction,false ,images);
+    public Tank(int x, int y, Direction direction, Image[] images) {
+        this(x, y, direction, false, images);
     }
 
-    public Tank(int x, int y, Direction direction, boolean enemy,Image[] images) {
-        super(x,y,images);
+    public Tank(int x, int y, Direction direction, boolean enemy, Image[] images) {
+        super(x, y, images);
 
         this.direction = direction;
         this.enemy = enemy;
@@ -58,6 +58,8 @@ public class Tank extends GameObject {
     }
 
     public void move() {
+        oldX = x;
+        oldY = y;
         switch (direction) {
             case UP:
                 y -= speed;
@@ -88,6 +90,27 @@ public class Tank extends GameObject {
                 x += speed;
                 break;
         }
+
+        for (GameObject o : TakeGame.gameClient.getGameObjects()) {
+            if (o != this && getRectangle().intersects(o.getRectangle())) {
+                x = oldX;
+                y = oldY;
+                break;
+            }
+        }
+
+        if (x < 0) {
+            x = 0;
+        } else if (x > TakeGame.gameClient.getWidth() - width) {
+            x = TakeGame.gameClient.getWidth() - width;
+        }
+
+        if (y < 0) {
+            y = 0;
+        } else if (y > TakeGame.gameClient.getHeight() - height) {
+            y = TakeGame.gameClient.getHeight() - height;
+        }
+
     }
 
     public int getSpeed() {
